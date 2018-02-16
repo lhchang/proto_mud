@@ -1,47 +1,43 @@
+import json
+import requests
 from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
 from ryu.controller import ofp_event
-from ryu.controller.handler import set_ev_cls
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
-from flask import Flask, jsonify, request
-import json
-import requests
-import threading
+from ryu.controller.handler import set_ev_cls
+from ryu.app.wsgi import ControllerBase, WSGIApplication, route
 
-#creates the application object as an instance of class Flask, __name__ is predefined, set to the name of the module in which it is used
-app = Flask(__name__) 
+
+mud_controller_instance_name = 'mud_controller_api'
+
 
 
 class MudController(app_manager.RyuApp):
-	OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
-	def __init__(self, *args, **kwargs):
-		super(MudController, self).__init__(*args, **kwargs)
-		app.run(debug=True)
-		
-		
-	@app.route('/sendMudUrl', methods=['POST'])
-	def receive_mud_url():
-		data = request.data
 
-		# data should be in json format containing URL and MAC address?
-		jsonData = json.loads(data)
-		device_mac =  jsonData['mac']
-		mud_url = jsonData['mud_url']
-		#response = requests.get(mud_url)
-		#if response.status_code == 200:
-			
-			# get JSON of the MUD file
-			# YANG? Parse and then add flow rules?
+    _CONTEXTS = {'wsgi': WSGIApplication}
 
-		#	return 'Success\n'
+    def __init__(self, *args, **kwargs):
+        super(MudController, self).__init__(*args, **kwargs)
+        self.switches = {}
+        wsgi = kwargs['wsgi']
+        wsgi.register(MudApi,
+                      {mud_controller_instance_name: self})
 
-		return 'Bad\n'
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        print 'hi'
 
-	@set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
-	def tester(self,ev):
-		print 'hi'
-		
-		
+
+class MudApi(ControllerBase):
+
+    def __init__(self, req, link, data, **config):
+        super(MudApi, self).__init__(req, link, data, **config)
+        self.mud_controller_app = data[mud_controller_instance_name]
+
+    @route('simpleswitch','/asdf',methods=['GET'])
+    def holla(self,req,**kwargs):
+        print 'hi'
+
 
 
 	
