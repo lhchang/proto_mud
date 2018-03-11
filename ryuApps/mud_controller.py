@@ -26,6 +26,8 @@ class MudController(app_manager.RyuApp):
         wsgi.register(MudApi,
                       {mud_controller_instance_name: self})
 
+    # Configure connected switches with default rules
+
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
         datapath = ev.msg.datapath
@@ -59,6 +61,8 @@ class MudController(app_manager.RyuApp):
         self.add_flow(datapath,10,match,actions)
 
 
+    # function to add flow rules
+
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
@@ -74,6 +78,9 @@ class MudController(app_manager.RyuApp):
         datapath.send_msg(mod)
 
 
+    '''
+    Function below is taken from simple_switch_13.py, acts as a simple learning L2 switch
+    '''
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         # If you hit this you might want to increase
@@ -91,7 +98,7 @@ class MudController(app_manager.RyuApp):
         eth = pkt.get_protocols(ethernet.ethernet)[0]
 
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
-            # ignore lldp packet
+            # ignore lldp and ipv6 packet
             return
         dst = eth.dst
         src = eth.src
@@ -139,13 +146,13 @@ class MudApi(ControllerBase):
         self.mud_controller_app = data[mud_controller_instance_name]
 
     # receive forwarded DHCP MUD URL
-    @route('simpleswitch','/sendMud',methods=['POST'])
+    @route('sendmud','/sendMud',methods=['POST'])
     def sendMudUrl(self,req,**kwargs):
         recvdData = req.json
         device_mac = recvdData['mac']  # get device mac - we use this to push rules
         mud_url = recvdData['mud_url'] # get mud_url, to fetch associated mud file
         
-        response = requests.get(mud_url,verify=False) # verify=False temporarily for testing on local server
+        response = requests.get(mud_url,verify=False) # verify=False temporarily for testing on local htts server
         if response.status_code == 200:
             # parse the mud file here
             # convert into flow rules?
