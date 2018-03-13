@@ -9,6 +9,13 @@ The following are to be installed before execution:
 - Mininet: For testing
 	- Instructions for installation <http://mininet.org/download/>
 		- Please follow Method 2 when installing. Install everything such that OVS (Open vSwitch) will also be installed.
+- staticDHCPd
+	- Install <https://github.com/flan/staticdhcpd>
+
+- required libraries
+	- requests
+	- pyang
+	- pyangbind
 
 
 

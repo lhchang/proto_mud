@@ -1,4 +1,5 @@
 import json
+from mud_binding import ietf_mud
 import requests
 from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
@@ -45,11 +46,11 @@ class MudController(app_manager.RyuApp):
                                           ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
 
-        match = parser.OFPMatch(eth_type=0x0800,ip_proto=17,udp_src=68,udp_dst=67) #DHCP
+        match = parser.OFPMatch(eth_type=0x0800,ip_proto=17,udp_src=68,udp_dst=67) #DHCP discovery/request
         actions = [parser.OFPActionOutput(ofproto.OFPP_NORMAL,0)]
         self.add_flow(datapath, 10, match, actions)
 
-        match = parser.OFPMatch(eth_type=0x0800, ip_proto=17, udp_src=67, udp_dst=68)  # DHCP
+        match = parser.OFPMatch(eth_type=0x0800, ip_proto=17, udp_src=67, udp_dst=68)  # DHCP offer/ack
         actions = [parser.OFPActionOutput(ofproto.OFPP_NORMAL, 0)]
         self.add_flow(datapath, 10, match, actions)
 
@@ -79,7 +80,7 @@ class MudController(app_manager.RyuApp):
 
 
     '''
-    Function below is taken from simple_switch_13.py, acts as a simple learning L2 switch
+    Function below is taken from simple_switch_13.py, acts as a simple learning L2 switch -- debugging purposes
     '''
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
@@ -157,6 +158,8 @@ class MudApi(ControllerBase):
             # parse the mud file here
             # convert into flow rules?
             print response.content
+
+
 
 
 
