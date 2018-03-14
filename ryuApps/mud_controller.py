@@ -1,6 +1,8 @@
 import json
-from mud_binding import ietf_mud
 import requests
+from webob import Response
+import eventlet
+
 from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
 from ryu.controller import ofp_event
@@ -141,7 +143,6 @@ class MudController(app_manager.RyuApp):
 
 
 class MudApi(ControllerBase):
-
     def __init__(self, req, link, data, **config):
         super(MudApi, self).__init__(req, link, data, **config)
         self.mud_controller_app = data[mud_controller_instance_name]
@@ -149,15 +150,26 @@ class MudApi(ControllerBase):
     # receive forwarded DHCP MUD URL
     @route('sendmud','/sendMud',methods=['POST'])
     def sendMudUrl(self,req,**kwargs):
+        eventlet.monkey_patch()
         recvdData = req.json
         device_mac = recvdData['mac']  # get device mac - we use this to push rules
         mud_url = recvdData['mud_url'] # get mud_url, to fetch associated mud file
-        
-        response = requests.get(mud_url,verify=False) # verify=False temporarily for testing on local htts server
-        if response.status_code == 200:
-            # parse the mud file here
-            # convert into flow rules?
-            print response.content
+        headers = {'Accept':'application/mud+json', 'Accept-Language':'en', 'User-Agent':'thesisMudController/1.0'}
+
+        # verify=False temporarily for testing on local htts server
+        try:
+            response = requests.get(mud_url, verify=False, headers=headers, timeout=3)
+            if response.status_code == 200:
+                mud_str = response.content # get string representation of MUD file
+                mud_file = json.loads(mud_str) # change it to JSON format for parsing
+
+        except requests.exceptions.Timeout:
+            # return 400 if bad request
+            return Response(status=400,body='400: Bad URL\n')
+
+
+
+
 
 
 
