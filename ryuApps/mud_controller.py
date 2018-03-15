@@ -3,6 +3,8 @@ import requests
 from webob import Response
 import eventlet
 
+import mud_parser
+
 from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
 from ryu.controller import ofp_event
@@ -150,7 +152,6 @@ class MudApi(ControllerBase):
     # receive forwarded DHCP MUD URL
     @route('sendmud','/sendMud',methods=['POST'])
     def sendMudUrl(self,req,**kwargs):
-        eventlet.monkey_patch()
         recvdData = req.json
         device_mac = recvdData['mac']  # get device mac - we use this to push rules
         mud_url = recvdData['mud_url'] # get mud_url, to fetch associated mud file
@@ -162,7 +163,11 @@ class MudApi(ControllerBase):
             if response.status_code == 200:
                 mud_str = response.content # get string representation of MUD file
                 mud_file = json.loads(mud_str) # change it to JSON format for parsing
+                mp = mud_parser.MudParser(mud_file)
 
+                # This needs to be changed
+                #if mp.getFromFlowIds() == False:
+                #    return Response(status=400,body='Invalid MUD file - Failed to insert rules')
         except requests.exceptions.Timeout:
             # return 400 if bad request
             return Response(status=400,body='400: Bad URL\n')
