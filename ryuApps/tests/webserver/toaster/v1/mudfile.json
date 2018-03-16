@@ -1,16 +1,16 @@
 {
    "ietf-mud:mud":{
       "mud-version":1,
-      "mud-url":"https://www.abcd.com/toybear",
-      "last-update":"2018-03-15T08:11:38+01:00",
+      "mud-url":"https://www.example.com/coffee",
+      "last-update":"2018-03-16T19:17:14+01:00",
       "cache-validity":48,
       "is-supported":true,
-      "systeminfo":"IoT Toy Bear",
+      "systeminfo":"coffee machine",
       "from-device-policy":{
          "access-lists":{
             "access-list":[
                {
-                  "name":"mud-48792-v4fr"
+                  "name":"mud-54536-v4fr"
                }
             ]
          }
@@ -19,7 +19,7 @@
          "access-lists":{
             "access-list":[
                {
-                  "name":"mud-48792-v4to"
+                  "name":"mud-54536-v4to"
                }
             ]
          }
@@ -28,7 +28,7 @@
    "ietf-access-control-list:access-lists":{
       "acl":[
          {
-            "name":"mud-48792-v4to",
+            "name":"mud-54536-v4to",
             "type":"ipv4-acl-type",
             "aces":{
                "ace":[
@@ -36,17 +36,17 @@
                      "name":"cl0-todev",
                      "matches":{
                         "ipv4":{
-                           "ietf-acldns:src-dnsname":"abcd.toys.com",
+                           "ietf-acldns:src-dnsname":"abcd.example.com",
                            "protocol":6
                         },
                         "tcp":{
                            "source-port":{
                               "operator":"eq",
-                              "port":777
+                              "port":555
                            },
                            "destination-port":{
                               "operator":"eq",
-                              "port":777
+                              "port":555
                            }
                         }
                      },
@@ -58,17 +58,39 @@
                      "name":"cl1-todev",
                      "matches":{
                         "ipv4":{
-                           "ietf-acldns:src-dnsname":"abcd.camera.com",
-                           "protocol":17
+                           "ietf-acldns:src-dnsname":"efgh.example.com",
+                           "protocol":6
                         },
-                        "udp":{
+                        "tcp":{
                            "source-port":{
                               "operator":"eq",
-                              "port":555
+                              "port":888
                            },
                            "destination-port":{
                               "operator":"eq",
-                              "port":555
+                              "port":888
+                           }
+                        }
+                     },
+                     "actions":{
+                        "forwarding":"accept"
+                     }
+                  },
+                  {
+                     "name":"cl2-todev",
+                     "matches":{
+                        "ipv4":{
+                           "ietf-acldns:src-dnsname":"yyyy.example.com",
+                           "protocol":6
+                        },
+                        "tcp":{
+                           "source-port":{
+                              "operator":"eq",
+                              "port":999
+                           },
+                           "destination-port":{
+                              "operator":"eq",
+                              "port":999
                            }
                         }
                      },
@@ -80,7 +102,7 @@
             }
          },
          {
-            "name":"mud-48792-v4fr",
+            "name":"mud-54536-v4fr",
             "type":"ipv4-acl-type",
             "aces":{
                "ace":[
@@ -88,17 +110,17 @@
                      "name":"cl0-frdev",
                      "matches":{
                         "ipv4":{
-                           "ietf-acldns:dst-dnsname":"abcd.toys.com",
+                           "ietf-acldns:dst-dnsname":"abcd.example.com",
                            "protocol":6
                         },
                         "tcp":{
                            "destination-port":{
                               "operator":"eq",
-                              "port":777
+                              "port":555
                            },
                            "source-port":{
                               "operator":"eq",
-                              "port":777
+                              "port":555
                            }
                         }
                      },
@@ -110,17 +132,39 @@
                      "name":"cl1-frdev",
                      "matches":{
                         "ipv4":{
-                           "ietf-acldns:dst-dnsname":"abcd.camera.com",
-                           "protocol":17
+                           "ietf-acldns:dst-dnsname":"efgh.example.com",
+                           "protocol":6
                         },
-                        "udp":{
+                        "tcp":{
                            "destination-port":{
                               "operator":"eq",
-                              "port":555
+                              "port":888
                            },
                            "source-port":{
                               "operator":"eq",
-                              "port":555
+                              "port":888
+                           }
+                        }
+                     },
+                     "actions":{
+                        "forwarding":"accept"
+                     }
+                  },
+                  {
+                     "name":"cl2-frdev",
+                     "matches":{
+                        "ipv4":{
+                           "ietf-acldns:dst-dnsname":"yyyy.example.com",
+                           "protocol":6
+                        },
+                        "tcp":{
+                           "destination-port":{
+                              "operator":"eq",
+                              "port":999
+                           },
+                           "source-port":{
+                              "operator":"eq",
+                              "port":999
                            }
                         }
                      },
