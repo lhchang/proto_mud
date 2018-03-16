@@ -14,8 +14,8 @@ The following are to be installed before execution:
 
 - required libraries
 	- requests
-	- pyang
-	- pyangbind
+	- ~~pyang~~
+	- ~~pyangbind~~
 
 
 

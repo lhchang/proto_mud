@@ -1,6 +1,13 @@
 # This director contains the SDN applications to be run ontop of Ryu
 
-## To be completed...
+## CURRENTLY WORKING ON
+- Set up simple topology on mininet of:
+	- hosts
+	- dhcp server (docker container)
+	- dns server (docker container)
+- test topology with mud_controller - must complete DNS resolution prior to flow installation
+
+## To Do
 
 - mud_controller: SDN application that retrieves and pushes mud flows into SDN switches
 	- DNS resolution of flows
