@@ -1,7 +1,7 @@
 # Proto MUD: A minimalistic and incomplete implementation of Manufacturer Usage Descriptions for the purpose of Laurence Chang 2018 Thesis
 https://tools.ietf.org/html/draft-ietf-opsawg-mud-15
 
-### Pre-requiites
+### Pre-requisites
 The following are to be installed before execution:
 
 - Ryu Controller
@@ -21,7 +21,8 @@ The following are to be installed before execution:
 	- ~~pyang~~
 	- ~~pyangbind~~
 
-
+### Organization
+Will need to eventually transition and replace mud_controller.py with mud_controller_v2.py
 
 
 
