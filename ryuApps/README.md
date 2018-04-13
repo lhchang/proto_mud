@@ -1,5 +1,11 @@
 # This director contains the SDN applications to be run ontop of Ryu
 
+## Notes
+- StaticDHCPd needs to be installed
+    - two conf.pys for each interface on router must be run (script provided in staticdhcpd directory)
+
+
+
 ## CURRENTLY WORKING ON
 - Set up simple topology on mininet of:
 	- hosts
