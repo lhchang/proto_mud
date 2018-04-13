@@ -11,9 +11,13 @@ The following are to be installed before execution:
 		- Please follow Method 2 when installing. Install everything such that OVS (Open vSwitch) will also be installed.
 - staticDHCPd
 	- Install <https://github.com/flan/staticdhcpd>
+- bind9 DNS server
+	- apt-get install bind9
 
 - required libraries
 	- requests
+	- json
+	- socket
 	- ~~pyang~~
 	- ~~pyangbind~~
 
