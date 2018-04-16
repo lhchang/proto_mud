@@ -1,3 +1,4 @@
 *.pyc
 /ryuApps/home/
 staticdhcpd
+*.pem
