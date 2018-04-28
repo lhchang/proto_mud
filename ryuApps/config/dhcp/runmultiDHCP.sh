@@ -1,0 +1,1 @@
+./staticDHCPd --config ./stupidhack/stupid1/conf.py & ./staticDHCPd --config ./stupidhack/stupid2/conf.py &
