@@ -1,0 +1,74 @@
+
+{
+  "ietf-mud:mud": {
+    "mud-version": 1,
+    "mud-url": "https://www.example-mud-server.com/mudfile4.json",
+    "last-update": "2018-04-20T06:52:15+02:00",
+    "mud-signature": "https://www.example-mud-server.com/mudfile4.json.sig",
+    "cache-validity": 48,
+    "is-supported": true,
+    "systeminfo": "IoTCompany toasterv1",
+    "mfg-name": "IoTCompany",
+    "model-name": "toasterv1",
+    "from-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "mud-23022-v4fr"
+          }
+        ]
+      }
+    },
+    "to-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "mud-23022-v4to"
+          }
+        ]
+      }
+    }
+  },
+  "ietf-access-control-list:access-lists": {
+    "acl": [
+      {
+        "name": "mud-23022-v4to",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "cl0-todev",
+              "matches": {
+                "ipv4": {
+                  "ietf-acldns:src-dnsname": "service1.example-iot-service1.com"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "mud-23022-v4fr",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "cl0-frdev",
+              "matches": {
+                "ipv4": {
+                  "ietf-acldns:dst-dnsname": "service1.example-iot-service1.com"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

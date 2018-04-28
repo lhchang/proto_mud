@@ -3,7 +3,7 @@
   "ietf-mud:mud": {
     "mud-version": 1,
     "mud-url": "https://www.example-mud-server.com/mudfile.json",
-    "last-update": "2018-04-21T03:33:04+02:00",
+    "last-update": "2018-04-19T00:24:01+02:00",
     "mud-signature": "https://www.example-mud-server.com/mudfile.json.sig",
     "cache-validity": 48,
     "is-supported": true,
@@ -14,7 +14,7 @@
       "access-lists": {
         "access-list": [
           {
-            "name": "mud-80790-v4fr"
+            "name": "mud-74697-v4fr"
           }
         ]
       }
@@ -23,7 +23,7 @@
       "access-lists": {
         "access-list": [
           {
-            "name": "mud-80790-v4to"
+            "name": "mud-74697-v4to"
           }
         ]
       }
@@ -32,7 +32,7 @@
   "ietf-access-control-list:access-lists": {
     "acl": [
       {
-        "name": "mud-80790-v4to",
+        "name": "mud-74697-v4to",
         "type": "ipv4-acl-type",
         "aces": {
           "ace": [
@@ -46,25 +46,11 @@
                 "tcp": {
                   "source-port": {
                     "operator": "eq",
-                    "port": 1234
-                  }
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            },
-            {
-              "name": "cl1-todev",
-              "matches": {
-                "ipv4": {
-                  "ietf-acldns:src-dnsname": "service2.example-iot-service2.com",
-                  "protocol": 6
-                },
-                "tcp": {
-                  "source-port": {
+                    "port": 2222
+                  },
+                  "destination-port": {
                     "operator": "eq",
-                    "port": 4321
+                    "port": 1111
                   }
                 }
               },
@@ -76,7 +62,7 @@
         }
       },
       {
-        "name": "mud-80790-v4fr",
+        "name": "mud-74697-v4fr",
         "type": "ipv4-acl-type",
         "aces": {
           "ace": [
@@ -90,25 +76,11 @@
                 "tcp": {
                   "destination-port": {
                     "operator": "eq",
-                    "port": 1234
-                  }
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            },
-            {
-              "name": "cl1-frdev",
-              "matches": {
-                "ipv4": {
-                  "ietf-acldns:dst-dnsname": "service2.example-iot-service2.com",
-                  "protocol": 6
-                },
-                "tcp": {
-                  "destination-port": {
+                    "port": 2222
+                  },
+                  "source-port": {
                     "operator": "eq",
-                    "port": 4321
+                    "port": 1111
                   }
                 }
               },
