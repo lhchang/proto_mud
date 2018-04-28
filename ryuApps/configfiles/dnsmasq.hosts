@@ -1,6 +1,0 @@
-# first one may be different for different machines
-192.168.56.101 www.example-mud-server.com
-#192.168.0.105 www.example-mud-server.com
-192.168.3.2 service1.example-iot-service1.com
-192.168.3.3 service2.example-iot-service2.com
-#192.168.3.4 service3.example-iot-service3.com
